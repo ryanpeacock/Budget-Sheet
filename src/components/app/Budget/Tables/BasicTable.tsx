@@ -23,7 +23,7 @@ export default function BasicTable({
   return (
     <div className="bg-white h-full">
       {title ? (
-        <div className="w-full px-3 py-3 border border-slate-300 border-b-0">
+        <div className="w-full px-3 py-3 bg-yellow-50 border border-slate-300 border-b-0">
           <div className="flex items-center">
             <span className="block text-xl font-semibold mr-2">{title}</span>
             {titleBtns ? (

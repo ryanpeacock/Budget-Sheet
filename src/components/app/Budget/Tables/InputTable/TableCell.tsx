@@ -51,7 +51,7 @@ export default function TableCell({
         {showLockCircle ? (
           <div
             className={`absolute -top-2 -right-2 cursor-pointer text-center w-5 h-5 flex justify-center items-center text-white rounded-full z-40 transition-all ${
-              isSetTypeLocked ? "bg-green-500" : "bg-slate-500"
+              isSetTypeLocked ? "bg-cyan-600" : "bg-slate-500"
             }`}
             onClick={handleOnSetType}
           >

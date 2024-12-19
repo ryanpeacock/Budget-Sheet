@@ -39,7 +39,7 @@ export default function TableRow({
     onChange({ ...newTableRow });
   };
   return (
-    <ShadTableRow key={tableRow.id} className="even:bg-[#F9F9F9] ">
+    <ShadTableRow key={tableRow.id} className="even:bg-zinc-50 ">
       {tableRow.rowItems.map((rowItem) => {
         return (
           <TableCell
@@ -52,8 +52,12 @@ export default function TableRow({
           />
         );
       })}
-      <ShadTableCell>
-        <Trash2 className="cursor-pointer" size={17} onClick={handleOnDelete} />
+      <ShadTableCell className="text-center pr-4">
+        <Trash2
+          className="cursor-pointer text-red-300"
+          size={17}
+          onClick={handleOnDelete}
+        />
       </ShadTableCell>
     </ShadTableRow>
   );

@@ -5,7 +5,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CheckSquare, PencilIcon, PlusIcon, Trash2 } from "lucide-react";
+import {
+  CheckSquare,
+  PencilIcon,
+  PlusCircle,
+  PlusIcon,
+  Trash2,
+} from "lucide-react";
 import { TableType } from "@/types/budget";
 import { generateNewRow } from "@/utilities/tools";
 
@@ -86,13 +92,17 @@ export default function InputTableHeaderBtns({
           </PopoverContent>
         </Popover>
       )}
-      <PlusIcon
+      <PlusCircle
         className="cursor-pointer m-0"
         size={17}
         onClick={addRowToTable}
       />
       {isIncomeTable ? null : (
-        <Trash2 className="cursor-pointer" size={17} onClick={onRemoveTable} />
+        <Trash2
+          className="cursor-pointer text-red-300"
+          size={17}
+          onClick={onRemoveTable}
+        />
       )}
     </div>
   );

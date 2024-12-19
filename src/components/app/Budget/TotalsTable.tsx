@@ -43,13 +43,13 @@ export default function TotalsTable({ budget, onChange }: TotalsTableProps) {
           <ShadTableCell colSpan={2} className="text-center">
             Expense Totals
           </ShadTableCell>
-          <ShadTableCell>
+          <ShadTableCell className="font-bold">
             {budget.budgetTotals["totalExpenses"].biWeekly}
           </ShadTableCell>
-          <ShadTableCell>
+          <ShadTableCell className="font-bold">
             {budget.budgetTotals["totalExpenses"].monthly}
           </ShadTableCell>
-          <ShadTableCell>
+          <ShadTableCell className="font-bold">
             {budget.budgetTotals["totalExpenses"].yearly}
           </ShadTableCell>
         </ShadTableRow>
@@ -58,35 +58,35 @@ export default function TotalsTable({ budget, onChange }: TotalsTableProps) {
             Left To Budget
           </ShadTableCell>
           <ShadTableCell
-            className={
+            className={`${
               budget.budgetTotals["leftToBudget"].biWeekly < 0
                 ? "text-red-800"
                 : budget.budgetTotals["leftToBudget"].biWeekly === 0
                 ? "text-slate-700"
                 : "text-green-600"
-            }
+            } font-bold`}
           >
             {budget.budgetTotals["leftToBudget"].biWeekly}
           </ShadTableCell>
           <ShadTableCell
-            className={
+            className={`${
               budget.budgetTotals["leftToBudget"].monthly < 0
                 ? "text-red-800"
                 : budget.budgetTotals["leftToBudget"].monthly === 0
                 ? "text-slate-700"
                 : "text-green-600"
-            }
+            } font-bold`}
           >
             {budget.budgetTotals["leftToBudget"].monthly}
           </ShadTableCell>
           <ShadTableCell
-            className={
+            className={`${
               budget.budgetTotals["leftToBudget"].yearly < 0
                 ? "text-red-800"
                 : budget.budgetTotals["leftToBudget"].yearly === 0
                 ? "text-slate-700"
                 : "text-green-600"
-            }
+            } font-bold`}
           >
             {budget.budgetTotals["leftToBudget"].yearly}
           </ShadTableCell>
