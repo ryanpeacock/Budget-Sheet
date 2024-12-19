@@ -77,3 +77,10 @@ export const generateNewBudget = (): BudgetType => {
     },
   };
 };
+
+export const getOtherSetTypes = (
+  setType: "biWeekly" | "monthly" | "yearly"
+): Array<string> => {
+  let types = ["biWeekly", "monthly", "yearly"];
+  return types.filter((item) => item !== setType);
+};

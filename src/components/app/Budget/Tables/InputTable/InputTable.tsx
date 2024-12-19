@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { BasicTable } from "../";
 import { TableRowType, TableType } from "@/types/budget";
 import { TableRow, InputTableHeaderBtns } from "./";
@@ -60,33 +60,6 @@ export default function InputTable({
     getTableTotals();
   }, [table.rows]);
 
-  const { biWeeklyTotals, monthlyTotals, yearlyTotals } = useMemo(() => {
-    let biWeeklyTotals: number = 0;
-    let monthlyTotals: number = 0;
-    let yearlyTotals: number = 0;
-
-    table.rows.map((tableRow) => {
-      tableRow.rowItems.map((item) => {
-        const { name, value } = item;
-        if (name === "biWeekly") {
-          biWeeklyTotals += parseInt(`${value}`);
-        }
-        if (name === "monthly") {
-          monthlyTotals += parseInt(`${value}`);
-        }
-        if (name === "yearly") {
-          yearlyTotals += parseInt(`${value}`);
-        }
-      });
-    });
-
-    return {
-      biWeeklyTotals,
-      monthlyTotals,
-      yearlyTotals,
-    };
-  }, [table.rows]);
-
   const onDeleteTableRow = (id: string) => {
     if (table.rows.length === 1) {
       toast({
@@ -138,13 +111,13 @@ export default function InputTable({
             />
           );
         })}
-        <ShadTableRow>
+        <ShadTableRow className="">
           <ShadTableCell className="text-center" colSpan={2}>
             Table Totals:
           </ShadTableCell>
-          <ShadTableCell>{biWeeklyTotals}</ShadTableCell>
-          <ShadTableCell>{monthlyTotals}</ShadTableCell>
-          <ShadTableCell>{yearlyTotals}</ShadTableCell>
+          <ShadTableCell>{table.totals.biWeekly}</ShadTableCell>
+          <ShadTableCell>{table.totals.monthly}</ShadTableCell>
+          <ShadTableCell>{table.totals.yearly}</ShadTableCell>
         </ShadTableRow>
       </>
     </BasicTable>

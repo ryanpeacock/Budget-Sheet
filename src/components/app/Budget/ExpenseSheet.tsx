@@ -1,9 +1,6 @@
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import { EXPENSE_TABLE_HEADERS } from "@/utilities/fields";
-import { PlusIcon } from "lucide-react";
 import { BudgetType, TableType } from "@/types/budget";
-import { generateNewTable } from "@/utilities/tools";
 import { useToast } from "@/hooks/use-toast";
 import { InputTable } from "./Tables/";
 
@@ -43,12 +40,6 @@ export default function ExpenseSheet({ budget, onChange }: ExpenseSheetProps) {
     getTotalExpenses();
   }, [budget.expenseTables]);
 
-  const addNewExpenseTable = (): void => {
-    onChange({
-      expenseTables: [...budget.expenseTables, generateNewTable()],
-    });
-  };
-
   const onRemoveExpenseTable = (id: string): void => {
     if (budget.expenseTables.length === 1) {
       toast({
@@ -74,12 +65,9 @@ export default function ExpenseSheet({ budget, onChange }: ExpenseSheetProps) {
   };
   return (
     <div className="expense-tables">
-      <Button onClick={addNewExpenseTable}>
-        <PlusIcon /> Add New Table
-      </Button>
       {budget.expenseTables.map((expenseTable) => {
         return (
-          <div key={expenseTable.id} className="my-8">
+          <div key={expenseTable.id} className="mb-8">
             <InputTable
               table={expenseTable}
               headers={EXPENSE_TABLE_HEADERS}

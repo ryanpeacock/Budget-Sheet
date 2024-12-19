@@ -13,7 +13,6 @@ export default function AppSidebar() {
       <SidebarHeader>
         <Logo />
       </SidebarHeader>
-
       <SidebarContent>
         <SidebarGroup />
         <SidebarGroup />

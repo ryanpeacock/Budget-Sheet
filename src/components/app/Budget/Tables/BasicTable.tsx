@@ -21,9 +21,9 @@ export default function BasicTable({
   titleBtns,
 }: BasicTableProps) {
   return (
-    <>
+    <div className="bg-white h-full">
       {title ? (
-        <div className="w-full py-2">
+        <div className="w-full px-3 py-3 border border-slate-300 border-b-0">
           <div className="flex items-center">
             <span className="block text-xl font-semibold mr-2">{title}</span>
             {titleBtns ? (
@@ -32,7 +32,7 @@ export default function BasicTable({
           </div>
         </div>
       ) : null}
-      <ShadTable>
+      <ShadTable className="border border-slate-300">
         <ShadTableHeader>
           <ShadTableRow className="uppercase">
             {headers.map((header, index) => {
@@ -42,6 +42,6 @@ export default function BasicTable({
         </ShadTableHeader>
         <ShadTableBody>{children}</ShadTableBody>
       </ShadTable>
-    </>
+    </div>
   );
 }

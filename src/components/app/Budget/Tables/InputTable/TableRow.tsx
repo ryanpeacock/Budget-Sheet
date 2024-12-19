@@ -20,7 +20,7 @@ export default function TableRow({
   const handleOnDelete = () => {
     onDelete(tableRow.id);
   };
-  const onChangeRowItem = (updatedRowItem: TableRowInputItemType) => {
+  const onChangeRowItem = (updatedRowItem: TableRowInputItemType): void => {
     let newTableRow = {
       ...tableRow,
       rowItems: tableRow.rowItems.map((item) => {
@@ -30,14 +30,25 @@ export default function TableRow({
     };
     onChange({ ...newTableRow });
   };
+
+  const setRowLockType = (setType: "biWeekly" | "monthly" | "yearly"): void => {
+    let newTableRow: TableRowType = {
+      ...tableRow,
+      setType: tableRow.setType === setType ? "none" : setType,
+    };
+    onChange({ ...newTableRow });
+  };
   return (
-    <ShadTableRow key={tableRow.id}>
+    <ShadTableRow key={tableRow.id} className="even:bg-[#F9F9F9] ">
       {tableRow.rowItems.map((rowItem) => {
         return (
           <TableCell
             key={rowItem.id}
             rowItem={rowItem}
+            onChangeRow={onChange}
             onChange={onChangeRowItem}
+            setLockType={setRowLockType}
+            tableRow={tableRow}
           />
         );
       })}
