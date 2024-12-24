@@ -1,14 +1,15 @@
 import { TableCell as ShadTableCell } from "@/components/ui/table";
-import { TableRowInputItemType, TableRowType } from "@/types/budget";
+
 import { Input } from "@/components/ui/input";
 import { CheckIcon } from "lucide-react";
+import { RowItemType, RowType } from "@/types/budget";
 
 type TableCellProps = {
-  rowItem: TableRowInputItemType;
-  onChange: (rowItem: TableRowInputItemType) => void;
-  onChangeRow: (tableRow: TableRowType) => void;
+  rowItem: RowItemType;
+  onChange: (rowItem: RowItemType) => void;
+  onChangeRow: (tableRow: RowItemType) => void;
   setLockType: (setType: "biWeekly" | "monthly" | "yearly") => void;
-  tableRow: TableRowType;
+  tableRow: RowType;
 };
 
 export default function TableCell({
@@ -27,8 +28,13 @@ export default function TableCell({
   }: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue: number | string = value;
     if (value === "") inputValue = 0;
-    const newTableRowItem = { ...rowItem, value: inputValue };
-    onChange({ ...newTableRowItem });
+
+    const updatedRowItem: RowItemType = {
+      ...rowItem,
+      value: inputValue,
+    };
+
+    onChange(updatedRowItem);
   };
   const showLockCircle = name !== "name" && name !== "date";
 

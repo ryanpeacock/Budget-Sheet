@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { BasicTable } from "../";
-import { TableRowType, TableType } from "@/types/budget";
+import { RowType, TableType } from "@/types/budget";
 import { TableRow, InputTableHeaderBtns } from "./";
 import { useToast } from "@/hooks/use-toast";
 
@@ -32,20 +32,11 @@ export default function InputTable({
     let yearlyTotals: number = 0;
 
     table.rows.map((tableRow) => {
-      tableRow.rowItems.map((item) => {
-        const { name, value } = item;
-        if (name === "biWeekly") {
-          biWeeklyTotals += parseInt(`${value}`);
-        }
-        if (name === "monthly") {
-          monthlyTotals += parseInt(`${value}`);
-        }
-        if (name === "yearly") {
-          yearlyTotals += parseInt(`${value}`);
-        }
-      });
+      biWeeklyTotals += parseFloat(`${tableRow.rowItems["biWeekly"].value}`);
+      monthlyTotals += parseFloat(`${tableRow.rowItems["monthly"].value}`);
+      yearlyTotals += parseFloat(`${tableRow.rowItems["yearly"].value}`);
     });
-    let newTableData = {
+    const newTableData = {
       ...table,
       totals: {
         biWeekly: biWeeklyTotals,
@@ -69,15 +60,15 @@ export default function InputTable({
       });
       return;
     }
-    let newTableData: TableType = {
+    const newTableData: TableType = {
       ...table,
       rows: table.rows.filter((tableRow) => tableRow.id !== id),
     };
     onChange(newTableData);
   };
 
-  const onChangeTableRow = (updatedTableRow: TableRowType) => {
-    let newTableData: TableType = {
+  const onChangeTableRow = (updatedTableRow: RowType) => {
+    const newTableData: TableType = {
       ...table,
       rows: table.rows.map((row) => {
         if (row.id === updatedTableRow.id) return { ...updatedTableRow };

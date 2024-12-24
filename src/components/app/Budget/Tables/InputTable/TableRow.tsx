@@ -3,12 +3,14 @@ import {
   TableRow as ShadTableRow,
 } from "@/components/ui/table";
 import TableCell from "./TableCell";
-import { TableRowInputItemType, TableRowType } from "@/types/budget";
+
 import { Trash2 } from "lucide-react";
+import { RowItemType, RowType } from "@/types/budget";
+import { getLockMultipledRowItems } from "@/utilities/tools";
 
 type TableRowProps = {
-  tableRow: TableRowType;
-  onChange: (row: TableRowType) => void;
+  tableRow: RowType;
+  onChange: (row: RowType) => void;
   onDelete: (id: string) => void;
 };
 
@@ -20,32 +22,51 @@ export default function TableRow({
   const handleOnDelete = () => {
     onDelete(tableRow.id);
   };
-  const onChangeRowItem = (updatedRowItem: TableRowInputItemType): void => {
-    let newTableRow = {
-      ...tableRow,
-      rowItems: tableRow.rowItems.map((item) => {
-        if (updatedRowItem.id === item.id) return { ...updatedRowItem };
-        return { ...item };
-      }),
+
+  const onChangeRowItem = (updatedRowItem: RowItemType): void => {
+    let newRowItems = {
+      ...tableRow.rowItems,
+      [updatedRowItem.name]: updatedRowItem,
     };
-    onChange({ ...newTableRow });
+
+    if (
+      tableRow.setType === updatedRowItem.name &&
+      tableRow.setType !== "none"
+    ) {
+      newRowItems = getLockMultipledRowItems(tableRow.setType, newRowItems);
+    }
+    const newTableRow: RowType = {
+      ...tableRow,
+      rowItems: {
+        ...newRowItems,
+      },
+    };
+    onChange(newTableRow);
   };
 
   const setRowLockType = (setType: "biWeekly" | "monthly" | "yearly"): void => {
-    let newTableRow: TableRowType = {
+    const isDeselecting: boolean = tableRow.setType === setType;
+    const newTableRow: RowType = {
       ...tableRow,
-      setType: tableRow.setType === setType ? "none" : setType,
+      setType: isDeselecting ? "none" : setType,
     };
-    onChange({ ...newTableRow });
+    if (!isDeselecting)
+      newTableRow.rowItems = getLockMultipledRowItems(
+        setType,
+        newTableRow.rowItems
+      );
+    onChange(newTableRow);
   };
+
   return (
-    <ShadTableRow key={tableRow.id} className="even:bg-zinc-50 ">
-      {tableRow.rowItems.map((rowItem) => {
+    <ShadTableRow key={tableRow.id} className="even:bg-zinc-50">
+      {Object.keys(tableRow.rowItems).map((key) => {
+        const rowItem = tableRow.rowItems[key];
         return (
           <TableCell
             key={rowItem.id}
             rowItem={rowItem}
-            onChangeRow={onChange}
+            onChangeRow={onChangeRowItem}
             onChange={onChangeRowItem}
             setLockType={setRowLockType}
             tableRow={tableRow}

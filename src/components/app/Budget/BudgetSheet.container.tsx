@@ -20,7 +20,7 @@ export default function BudgetSheet() {
       return;
     }
     onChangeBudget({
-      expenseTables: [...budget.expenseTables, generateNewTable()],
+      expenseTables: [...budget.expenseTables, generateNewTable(budget.id)],
     });
   };
 

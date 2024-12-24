@@ -1,38 +1,40 @@
-export type TableRowInputItemType = {
+export type RowItemType = {
   readonly id: string;
+  rowId: string;
   name: string;
   value: string | number;
   isInput: boolean;
   inputType?: string;
 };
-export type TableRowDisplayItemType = {
-  readonly id: string;
-  name: string;
-  value: string | number;
+
+export type RowItemsType = {
+  [key: string]: RowItemType; // Keys for direct access
 };
 
-export type TableRowType = {
+export type RowType = {
   readonly id: string;
+  tableId: string;
   setType: "none" | "biWeekly" | "monthly" | "yearly";
-  rowItems: TableRowInputItemType[];
+  rowItems: RowItemsType;
 };
 
 export type TableType = {
   readonly id: string;
+  budgetId: string;
   name: string;
   totals: {
     biWeekly: number;
     monthly: number;
     yearly: number;
   };
-  rows: Array<TableRowType>;
+  rows: RowType[];
 };
 
 export type BudgetType = {
   readonly id: string;
   name: string;
   incomeTable: TableType;
-  expenseTables: Array<TableType>;
+  expenseTables: TableType[];
   budgetTotals: {
     leftToBudget: {
       biWeekly: number;

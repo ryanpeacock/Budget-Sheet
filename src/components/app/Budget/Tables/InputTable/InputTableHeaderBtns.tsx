@@ -5,13 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-  CheckSquare,
-  PencilIcon,
-  PlusCircle,
-  PlusIcon,
-  Trash2,
-} from "lucide-react";
+import { CheckSquare, PencilIcon, PlusCircle, Trash2 } from "lucide-react";
 import { TableType } from "@/types/budget";
 import { generateNewRow } from "@/utilities/tools";
 
@@ -33,7 +27,7 @@ export default function InputTableHeaderBtns({
 
   const onUpdateTableName = (): void => {
     setOpenEditName(false);
-    let newTableData = { ...table, name: tableName };
+    const newTableData = { ...table, name: tableName };
     onChange({ ...newTableData });
   };
 
@@ -44,7 +38,10 @@ export default function InputTableHeaderBtns({
   };
 
   const addRowToTable = (): void => {
-    let newTableData = { ...table, rows: [...table.rows, generateNewRow()] };
+    const newTableData = {
+      ...table,
+      rows: [...table.rows, generateNewRow(table.id)],
+    };
     onChange({ ...newTableData });
   };
 

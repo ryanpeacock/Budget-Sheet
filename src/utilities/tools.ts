@@ -1,68 +1,68 @@
-import { BudgetType, TableRowType, TableType } from "@/types/budget";
+import {
+  BudgetType,
+  RowItemsType,
+  RowItemType,
+  RowType,
+  TableType,
+} from "@/types/budget";
 import { v4 as uuidv4 } from "uuid";
 
-export const generateNewRow = (): TableRowType => {
-  return {
+export const generateNewRow = (tableId: string): RowType => {
+  const rowId = uuidv4();
+
+  const createRowItem = (
+    name: string,
+    value: string | number,
+    isInput: boolean,
+    inputType?: string
+  ): RowItemType => ({
     id: uuidv4(),
+    rowId,
+    name,
+    value,
+    isInput,
+    inputType,
+  });
+
+  return {
+    id: rowId,
+    tableId,
     setType: "none",
-    rowItems: [
-      {
-        id: uuidv4(),
-        name: "name",
-        value: "",
-        isInput: false,
-      },
-      {
-        id: uuidv4(),
-        name: "date",
-        value: "",
-        isInput: true,
-        inputType: "text",
-      },
-      {
-        id: uuidv4(),
-        name: "biWeekly",
-        value: 0,
-        isInput: true,
-        inputType: "number",
-      },
-      {
-        id: uuidv4(),
-        name: "monthly",
-        value: 0,
-        isInput: true,
-        inputType: "number",
-      },
-      {
-        id: uuidv4(),
-        name: "yearly",
-        value: 0,
-        isInput: true,
-        inputType: "number",
-      },
-    ],
+    rowItems: {
+      name: createRowItem("name", "", false),
+      date: createRowItem("date", "", true, "text"),
+      biWeekly: createRowItem("biWeekly", 0, true, "number"),
+      monthly: createRowItem("monthly", 0, true, "number"),
+      yearly: createRowItem("yearly", 0, true, "number"),
+    },
   };
 };
 
-export const generateNewTable = (name?: string): TableType => {
+export const generateNewTable = (
+  budgetId: string,
+  name?: string
+): TableType => {
+  const tableId = uuidv4();
   return {
-    id: uuidv4(),
+    id: tableId,
+    budgetId,
     name: name ? name : "A New Budget Category",
     totals: {
       biWeekly: 0,
       monthly: 0,
       yearly: 0,
     },
-    rows: [generateNewRow()],
+    rows: [generateNewRow(tableId)],
   };
 };
 
 export const generateNewBudget = (): BudgetType => {
+  const budgetId = uuidv4();
   return {
-    id: uuidv4(),
+    id: budgetId,
     name: "",
-    incomeTable: generateNewTable("Income"),
-    expenseTables: [generateNewTable()],
+    incomeTable: generateNewTable(budgetId, "Income"),
+    expenseTables: [generateNewTable(budgetId)],
     budgetTotals: {
       leftToBudget: {
         biWeekly: 0,
@@ -78,9 +78,38 @@ export const generateNewBudget = (): BudgetType => {
   };
 };
 
-export const getOtherSetTypes = (
-  setType: "biWeekly" | "monthly" | "yearly"
-): Array<string> => {
-  let types = ["biWeekly", "monthly", "yearly"];
-  return types.filter((item) => item !== setType);
+export const getLockMultipledRowItems = (
+  setType: "biWeekly" | "monthly" | "yearly",
+  rowItems: RowItemsType
+): RowItemsType => {
+  const updatedRowItems = { ...rowItems };
+
+  const biWeeklyItem = updatedRowItems["biWeekly"];
+  const monthlyItem = updatedRowItems["monthly"];
+  const yearlyItem = updatedRowItems["yearly"];
+  if (setType === "biWeekly") {
+    monthlyItem.value = Math.ceil(
+      parseFloat(`${biWeeklyItem.value}`) * 2
+    ).toFixed(2);
+    yearlyItem.value = Math.ceil(
+      parseFloat(`${biWeeklyItem.value}`) * 24
+    ).toFixed(2);
+  }
+  if (setType === "monthly") {
+    biWeeklyItem.value = Math.ceil(
+      parseFloat(`${monthlyItem.value}`) / 2
+    ).toFixed(2);
+    yearlyItem.value = Math.ceil(
+      parseFloat(`${monthlyItem.value}`) * 12
+    ).toFixed(2);
+  }
+  if (setType === "yearly") {
+    biWeeklyItem.value = Math.ceil(
+      parseFloat(`${yearlyItem.value}`) / 24
+    ).toFixed(2);
+    monthlyItem.value = Math.ceil(
+      parseFloat(`${yearlyItem.value}`) / 12
+    ).toFixed(2);
+  }
+  return updatedRowItems;
 };

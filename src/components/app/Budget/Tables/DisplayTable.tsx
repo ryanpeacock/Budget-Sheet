@@ -26,10 +26,10 @@ export default function DisplayTable({
         ? table.rows.map((tableRow) => {
             return (
               <ShadTableRow key={tableRow.id}>
-                {tableRow.rowItems.map((rowItem) => {
+                {Object.keys(tableRow.rowItems).map((rowItem) => {
                   return (
                     <ShadTableCell className="p-3">
-                      {rowItem.value}
+                      {tableRow.rowItems[rowItem].value}
                     </ShadTableCell>
                   );
                 })}
