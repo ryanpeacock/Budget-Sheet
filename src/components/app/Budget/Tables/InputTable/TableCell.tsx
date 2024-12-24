@@ -2,7 +2,6 @@ import { TableCell as ShadTableCell } from "@/components/ui/table";
 import { TableRowInputItemType, TableRowType } from "@/types/budget";
 import { Input } from "@/components/ui/input";
 import { CheckIcon } from "lucide-react";
-import { getOtherSetTypes } from "@/utilities/tools";
 
 type TableCellProps = {
   rowItem: TableRowInputItemType;
@@ -15,11 +14,10 @@ type TableCellProps = {
 export default function TableCell({
   rowItem,
   onChange,
-  onChangeRow,
   setLockType,
   tableRow,
 }: TableCellProps) {
-  const { name, inputType, value, isInput } = rowItem;
+  const { name, inputType, value } = rowItem;
   const isTypeLockSet = tableRow.setType !== "none";
   const isSetTypeLocked = tableRow.setType === name;
   const disabled =
@@ -27,14 +25,9 @@ export default function TableCell({
   const onChangeRowItemValue = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    // if (isSetTypeLocked) {
-    //   let otherSetTypes = getOtherSetTypes(name)
-    //   let newTableRow = tableRow.rowItems.map((item) => {
-
-    //   })
-
-    // }
-    let newTableRowItem = { ...rowItem, value };
+    let inputValue: number | string = value;
+    if (value === "") inputValue = 0;
+    const newTableRowItem = { ...rowItem, value: inputValue };
     onChange({ ...newTableRowItem });
   };
   const showLockCircle = name !== "name" && name !== "date";
